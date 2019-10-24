@@ -110,37 +110,38 @@ end
     else
         ans = 'Проверка 2.1 - провал'
     end
-    % =====================================================================
-    %> Проверка 2.2 - Мягкое решение
-    % =====================================================================
-    BER = [];
-    SNR = [5:0.05:7];
-    for i = 1:length(SNR) % диапозон изменения SNR
-        Ne = 0;
-        for frame = 1:300 % номер блока кода 
-            bits = randi([0 1], N, 1); % генерация бит
-            LDPCcod = LDPCenc(bits); % кодирование
-            modData = mapping(LDPCcod.', 5); % модуляция
-            nsignal = AWGnoise (modData, SNR(i), 1); % функция, написанная вами в hw2
-            LLR = demapping (nsignal, 5, 1, SNR(i)); % мягкое решение
-            chackBits =  LDPCdec(LLR);
-            ERR = Nerr (bits, chackBits);
-            Ne = Ne+ERR
-            frame
-        end
-        BER = [BER, Ne/(N*frame)];
-    end
-        f = figure;
-    semilogy(SNR, BER, 'r^-')
-    hold on
-    semilogy(SNR-10*log10(2/2), BER, 'bo-')
-    grid on
-    title('QPSK LDPC 1/2')
-    xlabel('EbNo(dB)/EsNo(dB)')
-    ylabel('BER')
-    %> Сохраните полученные изображения
-    ConstName = ['QPSK_LDPC.fig'];
-    savefig(f,ConstName);
-    
-    
-    
+%     % =====================================================================
+%     %> Проверка 2.2 - Мягкое решение
+%     % =====================================================================
+%     BER = [];
+%     SNR = [5:0.1:7];
+%     for i = 1:length(SNR) % диапозон изменения SNR
+%         i
+%         Ne = 0;
+%         for frame = 1:150 % номер блока кода 
+%             frame
+%             bits = randi([0 1], N, 1); % генерация бит
+%             LDPCcod = LDPCenc(bits); % кодирование
+%             modData = mapping(LDPCcod.', 5); % модуляция
+%             nsignal = AWGnoise (modData, SNR(i), 1); % функция, написанная вами в hw2
+%             LLR = demapping (nsignal, 5, 1, SNR(i)); % мягкое решение
+%             chackBits =  LDPCdec(LLR);
+%             ERR = Nerr (bits, chackBits);
+%             Ne = Ne+ERR;
+%         end
+%         BER = [BER, Ne/(N*frame)];
+%     end
+%         f = figure;
+%     semilogy(SNR, BER, 'r^-')
+%     hold on
+%     semilogy(SNR-10*log10(2/2), BER, 'bo-')
+%     grid on
+%     title('QPSK LDPC 1/2')
+%     xlabel('EbNo(dB)/EsNo(dB)')
+%     ylabel('BER')
+%     %> Сохраните полученные изображения
+%     ConstName = ['QPSK_LDPC.fig'];
+%     savefig(f,ConstName);
+%     
+%     
+%     
