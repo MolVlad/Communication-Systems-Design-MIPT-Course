@@ -1,0 +1,105 @@
+function runParam = param()
+
+runParam.subcarrierMode = 4;    % 0 - default; 1 - without (-2,2); 2 - all; 3 - all without (-32, -5:5, 32); 4 - 52 subcarrier
+runParam.antennaNum = 4;   % max 10. after reboot - 14 or 19
+runParam.packetNum = 1; % currently disabled
+runParam.doubleCSI = 0; % works only with subcarrierMode = 4
+
+runParam.isMeasurement = 1;
+runParam.runOldMusic = 0;
+runParam.runNewMusic = 1;
+
+runParam.fc = 5.63e9;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% Parameters for CLASSIC MUSIC %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+runParam.sampleNum = 3000;
+runParam.threshold = 0.001;
+runParam.printOldMusicOutput = 0;
+runParam.plotOldMusic = 1;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%% Parameters for SPOTFI %%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+runParam.isPlotCSI = 0;
+runParam.isPlotSanitizedCSI = 0;
+runParam.isPlotSpectrum = 1;
+runParam.musicNumIter = 1;
+runParam.isCSIfromWinner = 1;
+runParam.printOutputMatrix = 0;
+runParam.printOutput = 0;
+runParam.printArrayAngle = 0;
+runParam.printMusicOutput = 1;
+runParam.printNumSignalEigVector = 0;
+runParam.numSignalEigVector = 2;    % default - 2; if 0 - automatically
+runParam.printSizeX = 0;
+
+runParam.grid = [201 101 1]; % [ToF, AoA, 1]
+runParam.delayRange = 1*[-880 -680]*1e-9;
+runParam.angleRange = 90*[-1 1];
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% Parameters for WINNER %%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+runParam.arrayAngle = 0;
+runParam.isLos = 0;
+runParam.numSubPath = 20;   % 1 or 20. if 1, randomPhases should be 1
+runParam.addNoiseToRays = 0; % noise to each subpath angle
+runParam.zeroPhases = 1;
+runParam.randomPhases = 1;  % if 1, it's necessary to assign them below
+runParam.phases = load('randomPhases.mat');
+runParam.phases = runParam.phases.phi;   % [N link, N path, N subpath]
+runParam.phases = zeros(size(runParam.phases));
+for i = 2:4:16
+    for j = 1:20
+        runParam.phases(1,i,j) = 180;
+    end
+end
+
+runParam.FixedPdpUsed = 1;
+runParam.FixedAnglesUsed = 1;
+runParam.addNoiseToDeparture = 0;
+
+%runParam.NLOSdeparture = [45 77 43 72 54 -65 -60 85 0 -104 95 -104 -105 103 -135 -122];
+x = 0;
+y = 0;
+runParam.NLOSdeparture = [x y x y x y x y x y x y x y x y];
+
+%runParam.NLOSpower = 10.^(-[15.2 19.7 15.1 18.8 16.3 17.7 17.1 21.2 13.0 14.6 23.0 25.1 25.4 24.8 33.4 29.6]/10);
+x = 20;
+y = 20;
+runParam.NLOSpower = 10.^(-[x y x y x y x y x y x y x y x y]/10);
+
+%runParam.NLOSdelay = [0 5 5 5 15 15 15 20 20 35 80 85 110 115 150 175]*1e-9;
+% y = 0;
+% runParam.NLOSdelay = [y y y y y y y y y y y y y y y y]*1e-9;
+x = 0;
+y = 20;
+runParam.NLOSdelay = [x y x y x y x y x y x y x y x y]*1e-9;
+
+% runParam.NLOSangle = [41 -70 39 66 -49 59 -55 -78 0 95 86 95 -96 -94 123 -111];
+x = 30;
+y = -30;
+runParam.NLOSangle = [x y x y x y x y x y x y x y x y];
+    
+runParam.LOSdeparture = [0 -107 -100 131 118 131 116 131 146 102 -126 131];
+runParam.LOSdelay = [0 10 25 50 65 75 75 115 115 145 195 350]*1e-9;  % Unit: seconds
+runParam.LOSpower = 10.^(-[22.9 28.8 26.5 25.1 32.2 36.5 31.3 36.4 42.2 27.2 34.6 36.4]/10); % Linear scale
+%runParam.LOSangle = [0 -110 102 -134 121 -134 -118 -134 149 105 129 -134];
+y = 0;
+runParam.LOSangle = [y y y y y y y y y y y y y y y y];
+
+runParam.rndSeed = 125;
+runParam.IntraClusterDsUsed = 0;
+runParam.PolarisedArrays = 0;
+runParam.printChanInfo = 0;
+runParam.ShadowingModelUsed = 0;
+runParam.PathLossModelUsed = 0;
+
+runParam.MSposition = [0 10 1.5].';
+runParam.BSposition = [0 0 1.5].';
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+end
